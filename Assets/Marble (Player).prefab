@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 7986083804696036916}
   - component: {fileID: 7986083804696036912}
   - component: {fileID: 7986083804696036936}
+  - component: {fileID: 963525740}
+  - component: {fileID: 963525741}
   m_Layer: 8
   m_Name: Marble (Player)
   m_TagString: Untagged
@@ -64,7 +66,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 99dda85b21d995944973fdeeeb3ede2c, type: 2}
+  - {fileID: 2100000, guid: f9ac8f05cb5320d4fba60c4499614b9b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -127,12 +129,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3afd6c3e8ee68642904c5b7e84a84a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 20
+  moveSpeed: 30
   jumpPower: 6
   jumpSurfaceAngle: 89
   airControlFactor: 0.8
   maxJumpVelocity: 0.2
-  maxAngularVelocity: 10
+  maxAngularVelocity: 20
   torqueAmount: 2
-  additionalGravityForce: 50
-  stickinessForce: 100
+  additionalGravityForce: 0
+  stickinessForce: 20
+--- !u!114 &963525740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7986083804696036927}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27fa31920e175f9448d5056654bc5841, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ability: {fileID: 11400000, guid: b62d7b5d7599f6b4f9635013a175e6a6, type: 2}
+  growKey: 323
+  shrinkKey: 324
+--- !u!114 &963525741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7986083804696036927}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a159115e2b4cbc4a9a0abad57805463, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentSize: 1
+  smallSizeMoveSpeed: 10
+  mediumSizeMoveSpeed: 15
+  largeSizeMoveSpeed: 20

@@ -1,28 +1,17 @@
-//TODO
-
-//FIX THE AIR RESISTANCE SO THE MARBLE DOES NOT HAVE SO MUCH CONTROL IN THE AIR
-//MAKE THE MARBLE ROTATE MORE ACCURATELY
-//ALLOW MARBLE MORE TORQUE IN THE AIR
-
-//MAYBE TRY TO ADD MORE CUSTOM PHYSICS FOR THE MARBLE'S BOUNCINESS
-
-
-
-
 using UnityEngine;
 using System;
 
 public class PlayerController : MonoBehaviour
 {
-    public float moveSpeed = 10f;
-    public float jumpPower = 1f;
-    public float jumpSurfaceAngle = 90f; // The angle of the surface the player is allowed to jump off of
-    public float airControlFactor = 0.2f; // Determines how much control the player has in the air
-    public float maxJumpVelocity = 10f; // Maximum upward velocity from a jump
-    public float maxAngularVelocity = 20f;
-    public float torqueAmount = 10f; // Adjust this value to increase/decrease the rotation speed
-    public float additionalGravityForce = 50f; // Extra downward force
-    public float stickinessForce = 100f; // New variable for the stickiness effect
+    public float moveSpeed = 30f;
+    public float jumpPower = 6f;
+    public float jumpSurfaceAngle = 89f; // The angle of the surface the player is allowed to jump off of
+    public float airControlFactor = 0.8f; // Determines how much control the player has in the air
+    public float maxJumpVelocity = .2f; // Maximum upward velocity from a jump
+    public float maxAngularVelocity = 20f; // This is the max speed that the marble can rotate
+    public float torqueAmount = 2f; // Adjust this value to increase/decrease the rotation speed
+    public float additionalGravityForce = 0f; // Extra downward force
+    public float stickinessForce = 20f;
 
 
     private bool jump;
@@ -39,17 +28,7 @@ public class PlayerController : MonoBehaviour
     private Camera cam;
 
 
-    //TESTING STICKYNESS
-    /*public float rotationSpeed = 10f;
-    public float maxRotationAngle = 30f;
-    public LayerMask groundMask;
-    [SerializeField]
-    private AnimationCurve aniCurve;
-    [SerializeField]
-    private float Timer;*/
-
-
-
+    private PlayerSizeManager sizeManager;
 
     void Start()
     {
@@ -58,27 +37,15 @@ public class PlayerController : MonoBehaviour
         cam = Camera.main;
 
         // Remove the cap on the maximum angular velocity to allow for faster rotation
-        rb.maxAngularVelocity = maxAngularVelocity; // Or set it to a high enough value that won't limit your marble
+        rb.maxAngularVelocity = maxAngularVelocity;
+
+        sizeManager = GetComponent<PlayerSizeManager>();
     }
 
     void Update() //Use for input processing
     {
         HandleInput();
-
-
-        Ray ray = new Ray(transform.position, -transform.up);
-        RaycastHit info = new RaycastHit();
-        Quaternion rf = Quaternion.Euler(0, 0, 0);
-
-        /*if (Physics.Raycast(ray, out info, groundMask))
-        {
-
-            //  rf = Quaternion.Lerp(transform.rotation , Quaternion.FromToRotation(Vector3.up, info.normal), aniCurve.Evaluate(Timer));
-            //  transform.rotation = Quaternion.Euler(rf.eulerAngles.x, transform.eulerAngles.y,rf.eulerAngles.z);
-
-            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.FromToRotation(Vector3.up, info.normal), aniCurve.Evaluate(Timer));
-
-        }*/
+        //SurfaceAlignment();
     }
 
     private void FixedUpdate() //Use for movement
@@ -88,11 +55,11 @@ public class PlayerController : MonoBehaviour
         Jump();
         ApplyAirResistance();
         ApplyManualFriction();
-        /*ApplyAdditionalGravity();
-        ApplyStickiness();*/
+        ApplyAdditionalGravity();
+        ApplyStickiness();
     }
-
-    /*private void ApplyStickiness()
+    
+    private void ApplyStickiness()
     {
         if (isGrounded)
         {
@@ -105,7 +72,7 @@ public class PlayerController : MonoBehaviour
     {
         // Apply additional gravity when the marble is grounded to help it stick to surfaces
         rb.AddForce(Vector3.down * additionalGravityForce, ForceMode.Force);
-    }*/
+    }
 
     private void ApplyManualFriction()
     {
@@ -159,26 +126,21 @@ public class PlayerController : MonoBehaviour
         // Also normalize the direction so that moving diagonally does not speed up the player
         moveDirection = (forward * moveZ + right * moveX).normalized;
     }
-
+     // Force and torque to move the marble
     private void Move()
     {
         // Determine the amount of control the player has over movement (1 when grounded, less when in the air)
         float controlFactor = isGrounded ? 1f : airControlFactor;
 
-        // Calculate the desired move force and apply it
         Vector3 moveForce = moveDirection * (moveSpeed * controlFactor);
         rb.AddForce(moveForce, ForceMode.Force);
 
-        // Calculate input magnitude which can be used to scale the torque for smoother rotation
         float inputMagnitude = new Vector2(moveX, moveZ).magnitude;
 
-        // Calculate the desired torque direction (in world space) for the marble to roll in the move direction
         Vector3 torqueDirection = Vector3.Cross(Vector3.up, moveDirection).normalized;
 
-        // Calculate the torque force, scaled by the input magnitude and the current speed of the marble
         Vector3 torqueForce = torqueDirection * torqueAmount * inputMagnitude;
 
-        // Apply the torque force smoothly
         rb.AddTorque(torqueForce, ForceMode.Force);
     }
 
@@ -190,20 +152,16 @@ public class PlayerController : MonoBehaviour
             rb.AddForce(jumpDirection * jumpPower, ForceMode.Impulse);
             
             // Clamp the velocity immediately after the jump to ensure it doesn't exceed the maximum
+            // This is to make the marble stop jumping higher than normal after multiple jumps
             Vector3 velocity = rb.velocity;
             velocity.y = Mathf.Min(velocity.y, maxJumpVelocity);
             rb.velocity = velocity;
 
-            // After jumping, reset groundContact so it needs to be confirmed again
+            // After jumping, reset groundContact and wallContact so it needs to be confirmed again
             groundContact = false;
-            wallContact = false; // Also reset the wallContact to ensure it's recalculated
+            wallContact = false;
         }
     }
-
-    /*private void OnCollisionEnter(Collision collision)
-    {
-        jumpDirection = collision.contacts[0].normal;
-    }*/
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -227,19 +185,19 @@ public class PlayerController : MonoBehaviour
         foreach (var contact in collision.contacts)
         {
             float angle = Vector3.Angle(contact.normal, Vector3.up);
-            if (angle < jumpSurfaceAngle) // Contact is considered as ground
+            if (angle < jumpSurfaceAngle) // considered as ground
             {
                 groundContact = true;
                 jumpDirection = contact.normal; // Use the normal of the ground contact
             }
-            else if (angle > jumpSurfaceAngle && angle < 180 - jumpSurfaceAngle) // Contact is considered as wall
+            else if (angle > jumpSurfaceAngle && angle < 180 - jumpSurfaceAngle) // considered as wall
             {
                 wallContact = true;
             }
         }
 
-        // Debug output to check the contact states
-        Debug.Log("Ground contact: " + groundContact + ", Wall contact: " + wallContact);
+        // Debug to check the contact states
+        //Debug.Log("Ground contact: " + groundContact + ", Wall contact: " + wallContact);
     }
 
     // Call this in FixedUpdate before Jump to re-evaluate ability to jump
