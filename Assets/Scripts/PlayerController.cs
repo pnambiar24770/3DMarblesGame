@@ -8,8 +8,8 @@ public class PlayerController : MonoBehaviour
     public float jumpSurfaceAngle = 89f; // The angle of the surface the player is allowed to jump off of
     public float airControlFactor = 0.8f; // Determines how much control the player has in the air
     public float maxJumpVelocity = .2f; // Maximum upward velocity from a jump
-    public float maxAngularVelocity = 20f; // This is the max speed that the marble can rotate
-    public float torqueAmount = 2f; // Adjust this value to increase/decrease the rotation speed
+    public float maxAngularVelocity = 20f; // Max speed that the marble can rotate
+    public float torqueAmount = 2f; // increase/decrease the rotation speed
     public float additionalGravityForce = 0f; // Extra downward force
     public float stickinessForce = 20f;
 
@@ -27,9 +27,6 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
     private Camera cam;
 
-
-    private PlayerSizeManager sizeManager;
-
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -38,14 +35,11 @@ public class PlayerController : MonoBehaviour
 
         // Remove the cap on the maximum angular velocity to allow for faster rotation
         rb.maxAngularVelocity = maxAngularVelocity;
-
-        sizeManager = GetComponent<PlayerSizeManager>();
     }
 
     void Update() //Use for input processing
     {
         HandleInput();
-        //SurfaceAlignment();
     }
 
     private void FixedUpdate() //Use for movement

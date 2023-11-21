@@ -1,40 +1,80 @@
+//TODO
+
+//Adjust the sofybody marble physics more
+//
+
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerSizeManager : MonoBehaviour
+public class PlayerManager : MonoBehaviour
 {
+    public GameObject ballObject; // Reference to the GameObject with softbody bones
+    public SoftbodyToggle softbodyToggle;
+    public PhysicMaterial physicsMaterial; // Reference to the Physics Material
+    public SphereCollider sphereCollider;
+
+
     public enum BallSize
     {
         Small,
         Medium,
-        Large
+        Large,
+        Softbody
     }
 
     public BallSize currentSize = BallSize.Medium;
 
     //physics for each size
-    [SerializeField] private float smallSizeMoveSpeed = 10f;
-    [SerializeField] private float mediumSizeMoveSpeed = 30f;
-    [SerializeField] private float largeSizeMoveSpeed = 20f;
+    public float smallSizeMoveSpeed = 10f;
+    public float smallGravity = -5f;
+    public float smallStickinessForce = 5f;
+    public float smallTorque = 2f;
+    public float smallDynamicFriction = 0f;
+    public float smallBounciness = .97f;
 
-    [SerializeField] private float smallGravity = -5f;
-    [SerializeField] private float mediumGravity = 0;
-    [SerializeField] private float largeGravity = 10f;
+    public float mediumSizeMoveSpeed = 30f;
+    public float mediumGravity = 0;
+    public float mediumStickinessForce = 15f;
+    public float mediumTorque = 2f;
+    public float mediumDynamicFriction = 0f;
+    public float mediumBounciness = .97f;
 
-    [SerializeField] private float smallStickinessForce = 5f;
-    [SerializeField] private float mediumStickinessForce = 20f;
-    [SerializeField] private float largeStickinessForce = 40f;
+    public float largeSizeMoveSpeed = 20f;
+    public float largeGravity = 10f;
+    public float largeStickinessForce = 25f;
+    public float largeTorque = 2f;
+    public float largeDynamicFriction = 0f;
+    public float largeBounciness = .97f;
+
+    public float softbodyMoveSpeed = 10f;
+    public float softbodyGravity = -5f;
+    public float softbodyStickinessForce = 40f;
+    public float softbodyTorque = 20f;
+    public float softbodyDynamicFriction = 2f;
+    public float softbodyBounciness = 0f;
+    public float softbodyRadius = .5f;
 
     [SerializeField] private float rayLengthMultiplier = 4.0f;
 
-
     private PlayerController playerController;
 
-    void Start()
+    private void Start()
     {
         playerController = GetComponent<PlayerController>();
         UpdatePhysicsParameters();
+
+        // Ignore collision between the player's collider and the bones
+        Collider playerCollider = GetComponent<Collider>();
+        if (ballObject != null)
+        {
+            Collider[] boneColliders = ballObject.GetComponentsInChildren<Collider>();
+            foreach (var boneCollider in boneColliders)
+            {
+                Physics.IgnoreCollision(playerCollider, boneCollider);
+            }
+        }
     }
 
     void Update()
@@ -163,7 +203,7 @@ public class PlayerSizeManager : MonoBehaviour
         }
         else if (Input.GetMouseButtonDown(1)) // Right click to decrease size
         {
-            DecreaseSize();
+           DecreaseSize();
         }
     }
 
@@ -178,9 +218,11 @@ public class PlayerSizeManager : MonoBehaviour
                     currentSize = BallSize.Medium;
                     break;
                 case BallSize.Medium:
-                    currentSize = BallSize.Large;
+                    if (softbodyToggle.softBodyActive == false)
+                    {
+                        currentSize = BallSize.Large;
+                    }
                     break;
-                    // Add additional cases for larger sizes if needed
             }
 
             UpdatePhysicsParameters();
@@ -202,9 +244,11 @@ public class PlayerSizeManager : MonoBehaviour
                     currentSize = BallSize.Medium;
                     break;
                 case BallSize.Medium:
-                    currentSize = BallSize.Small;
+                    if (softbodyToggle.softBodyActive == false)
+                    {
+                        currentSize = BallSize.Small;
+                    }
                     break;
-                    // Add additional cases for smaller sizes if needed
             }
 
             UpdatePhysicsParameters();
@@ -215,7 +259,7 @@ public class PlayerSizeManager : MonoBehaviour
         }
     }
 
-    void UpdatePhysicsParameters()
+    public void UpdatePhysicsParameters()
     {
         // Update physics parameters based on the current size
         switch (currentSize)
@@ -224,18 +268,38 @@ public class PlayerSizeManager : MonoBehaviour
                 playerController.moveSpeed = smallSizeMoveSpeed;
                 playerController.additionalGravityForce = smallGravity;
                 playerController.stickinessForce = smallStickinessForce;
+                playerController.torqueAmount = smallTorque;
+                physicsMaterial.dynamicFriction = smallDynamicFriction;
+                physicsMaterial.bounciness = smallBounciness;
+                sphereCollider.radius = .85f;
                 break;
             case BallSize.Medium:
                 playerController.moveSpeed = mediumSizeMoveSpeed;
                 playerController.additionalGravityForce = mediumGravity;
                 playerController.stickinessForce = mediumStickinessForce;
+                playerController.torqueAmount = mediumTorque;
+                physicsMaterial.dynamicFriction = mediumDynamicFriction;
+                physicsMaterial.bounciness = mediumBounciness;
+                sphereCollider.radius = .85f;
                 break;
             case BallSize.Large:
                 playerController.moveSpeed = largeSizeMoveSpeed;
                 playerController.additionalGravityForce = largeGravity;
                 playerController.stickinessForce = largeStickinessForce;
+                playerController.torqueAmount = largeTorque;
+                physicsMaterial.dynamicFriction = largeDynamicFriction;
+                physicsMaterial.bounciness = largeBounciness;
+                sphereCollider.radius = .85f;
                 break;
-                // Add additional cases for other physics parameters if needed
+            case BallSize.Softbody:
+                playerController.moveSpeed = softbodyMoveSpeed;
+                playerController.additionalGravityForce = softbodyGravity;
+                playerController.stickinessForce = softbodyStickinessForce;
+                playerController.torqueAmount = softbodyTorque;
+                physicsMaterial.dynamicFriction = softbodyDynamicFriction;
+                physicsMaterial.bounciness = softbodyBounciness;
+                sphereCollider.radius = softbodyRadius;
+                break;
         }
     }
 }

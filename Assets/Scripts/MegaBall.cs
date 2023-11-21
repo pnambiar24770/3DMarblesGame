@@ -9,26 +9,24 @@ public class MegaBall : AbilityBase
 
     public override void Activate(GameObject parent)
     {
-        PlayerSizeManager sizeManager = parent.GetComponent<PlayerSizeManager>();
+        PlayerManager sizeManager = parent.GetComponent<PlayerManager>();
 
         if (sizeManager != null)
         {
             float targetScale = GetTargetScale(sizeManager.currentSize);
             parent.GetComponent<MonoBehaviour>().StartCoroutine(GrowOverTime(parent.transform, targetScale));
-
-            // Add any other size-specific activation logic here
         }
     }
 
-    float GetTargetScale(PlayerSizeManager.BallSize size)
+    float GetTargetScale(PlayerManager.BallSize size)
     {
         switch (size)
         {
-            case PlayerSizeManager.BallSize.Small:
-                return originalScale * 0.25f;
-            case PlayerSizeManager.BallSize.Medium:
+            case PlayerManager.BallSize.Small:
+                return originalScale * 0.35f;
+            case PlayerManager.BallSize.Medium:
                 return originalScale;
-            case PlayerSizeManager.BallSize.Large:
+            case PlayerManager.BallSize.Large:
                 return originalScale * 4f;
             default:
                 return originalScale;
@@ -47,7 +45,6 @@ public class MegaBall : AbilityBase
             yield return null;
         }
 
-        // Ensure that the scale is exactly the target scale when the coroutine ends
         targetTransform.localScale = new Vector3(targetScale, targetScale, targetScale);
     }
 }

@@ -70,7 +70,7 @@ Material:
     - _Chromatic: 0.004
     - _EmissiveStrenght: 1
     - _IOR: 1.1
-    - _NormalStrenght: 2
+    - _NormalStrenght: 3
     - _QueueControl: 0
     - _QueueOffset: 0
     - _RefractiveIndexOrigin: 1
