@@ -28,6 +28,8 @@ public class PlayerManager : MonoBehaviour
 
     //physics for each size
     public float smallSizeMoveSpeed = 10f;
+    public float smallJumpPower = 6f;
+    public float smallMass = 1f;
     public float smallGravity = -5f;
     public float smallStickinessForce = 5f;
     public float smallTorque = 2f;
@@ -35,6 +37,8 @@ public class PlayerManager : MonoBehaviour
     public float smallBounciness = .97f;
 
     public float mediumSizeMoveSpeed = 30f;
+    public float mediumJumpPower = 6f;
+    public float mediumMass = 1f;
     public float mediumGravity = 0;
     public float mediumStickinessForce = 15f;
     public float mediumTorque = 2f;
@@ -42,6 +46,8 @@ public class PlayerManager : MonoBehaviour
     public float mediumBounciness = .97f;
 
     public float largeSizeMoveSpeed = 20f;
+    public float largeJumpPower = 6f;
+    public float largeMass = 1f;
     public float largeGravity = 10f;
     public float largeStickinessForce = 25f;
     public float largeTorque = 2f;
@@ -49,6 +55,8 @@ public class PlayerManager : MonoBehaviour
     public float largeBounciness = .97f;
 
     public float softbodyMoveSpeed = 10f;
+    public float softbodyJumpPower = 6f;
+    public float softbodyMass = 1f;
     public float softbodyGravity = -5f;
     public float softbodyStickinessForce = 40f;
     public float softbodyTorque = 20f;
@@ -59,9 +67,11 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private float rayLengthMultiplier = 4.0f;
 
     private PlayerController playerController;
+    private Rigidbody rb;
 
     private void Start()
     {
+        rb = GetComponent<Rigidbody>();
         playerController = GetComponent<PlayerController>();
         UpdatePhysicsParameters();
 
@@ -266,39 +276,47 @@ public class PlayerManager : MonoBehaviour
         {
             case BallSize.Small:
                 playerController.moveSpeed = smallSizeMoveSpeed;
+                playerController.jumpPower = smallJumpPower;
                 playerController.additionalGravityForce = smallGravity;
                 playerController.stickinessForce = smallStickinessForce;
                 playerController.torqueAmount = smallTorque;
                 physicsMaterial.dynamicFriction = smallDynamicFriction;
                 physicsMaterial.bounciness = smallBounciness;
                 sphereCollider.radius = .85f;
+                rb.mass = smallMass;
                 break;
             case BallSize.Medium:
                 playerController.moveSpeed = mediumSizeMoveSpeed;
+                playerController.jumpPower = mediumJumpPower;
                 playerController.additionalGravityForce = mediumGravity;
                 playerController.stickinessForce = mediumStickinessForce;
                 playerController.torqueAmount = mediumTorque;
                 physicsMaterial.dynamicFriction = mediumDynamicFriction;
                 physicsMaterial.bounciness = mediumBounciness;
                 sphereCollider.radius = .85f;
+                rb.mass = mediumMass;
                 break;
             case BallSize.Large:
                 playerController.moveSpeed = largeSizeMoveSpeed;
+                playerController.jumpPower = largeJumpPower;
                 playerController.additionalGravityForce = largeGravity;
                 playerController.stickinessForce = largeStickinessForce;
                 playerController.torqueAmount = largeTorque;
                 physicsMaterial.dynamicFriction = largeDynamicFriction;
                 physicsMaterial.bounciness = largeBounciness;
                 sphereCollider.radius = .85f;
+                rb.mass = largeMass;
                 break;
             case BallSize.Softbody:
                 playerController.moveSpeed = softbodyMoveSpeed;
+                playerController.jumpPower = softbodyJumpPower;
                 playerController.additionalGravityForce = softbodyGravity;
                 playerController.stickinessForce = softbodyStickinessForce;
                 playerController.torqueAmount = softbodyTorque;
                 physicsMaterial.dynamicFriction = softbodyDynamicFriction;
                 physicsMaterial.bounciness = softbodyBounciness;
                 sphereCollider.radius = softbodyRadius;
+                rb.mass = softbodyMass;
                 break;
         }
     }
