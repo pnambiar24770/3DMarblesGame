@@ -1,0 +1,29 @@
+fileFormatVersion: 2
+guid: c9044f34375072144ba9841aef476d75
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Waters Titling Pro
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: b8e15b53361495146b0a9266a5ba3862, type: 3}
+  - {fileID: 12800000, guid: c4f8533faca37a443ac6a7becbb9d306, type: 3}
+  - {fileID: 12800000, guid: b2e257ba6817bab49b19cd1c26a55ebe, type: 3}
+  - {fileID: 12800000, guid: f1d59f514429f174d9fc413e12e0c807, type: 3}
+  - {fileID: 12800000, guid: 48f62960d0161384eb763f614b58b611, type: 3}
+  - {fileID: 12800000, guid: 10d67b06de0d13148a03e95e59e8b7e5, type: 3}
+  - {fileID: 12800000, guid: c33934ced393ce246845a371a25fad87, type: 3}
+  - {fileID: 12800000, guid: a0a127a024665284fa265ddf41c503a6, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

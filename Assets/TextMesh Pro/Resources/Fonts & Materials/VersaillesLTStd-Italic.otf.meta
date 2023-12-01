@@ -1,0 +1,28 @@
+fileFormatVersion: 2
+guid: 3ff0688f1d460834eba269afa4526bd8
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Versailles LT Std
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: bd31c76f0c675064ebce9f5a5d1d2dc1, type: 3}
+  - {fileID: 12800000, guid: fae3715459c17fb4896b61d59dd458fa, type: 3}
+  - {fileID: 12800000, guid: 0b6816a9ee959a043a113bb1b3482b0e, type: 3}
+  - {fileID: 12800000, guid: 3168cf5a68898d242ba6efb26e0fcd0c, type: 3}
+  - {fileID: 12800000, guid: b48659df9af873349ae74470fac741cd, type: 3}
+  - {fileID: 12800000, guid: 8d6c56eea7eb27a4786be5bff5219684, type: 3}
+  - {fileID: 12800000, guid: ce8625e2201f3c94ea074a5528f42f50, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

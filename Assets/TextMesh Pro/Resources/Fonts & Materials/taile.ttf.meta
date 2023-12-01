@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 37721a1599b7366418d1c0fb876e4f15
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Microsoft Tai Le
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: f1b3a909e6544614e848e7b313b9563f, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
