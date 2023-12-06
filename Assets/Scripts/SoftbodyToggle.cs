@@ -56,11 +56,18 @@ public class SoftbodyToggle : MonoBehaviour
             {
                 playerManager.currentSize = PlayerManager.BallSize.Softbody;
                 playerManager.UpdatePhysicsParameters();
+                //play jump sound
+                FindObjectOfType<AudioManager>().Play("Water");
+
             }
             else
+
             {
                 playerManager.currentSize = PlayerManager.BallSize.Medium;
                 playerManager.UpdatePhysicsParameters();
+                //stop water sound
+                FindObjectOfType<AudioManager>().StopPlaying("Water");
+
             }
 
             // Toggle the softbody bones on/off

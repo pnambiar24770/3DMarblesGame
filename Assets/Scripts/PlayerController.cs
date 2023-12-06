@@ -51,6 +51,7 @@ public class PlayerController : MonoBehaviour
         ApplyManualFriction();
         ApplyAdditionalGravity();
         ApplyStickiness();
+     
     }
     
     private void ApplyStickiness()
@@ -144,7 +145,11 @@ public class PlayerController : MonoBehaviour
         {
             // Apply the jump force
             rb.AddForce(jumpDirection * jumpPower, ForceMode.Impulse);
-            
+
+            //Play Jump Sound && Stop Rolling Sound
+            //FindObjectOfType<AudioManager>().Play("Jump");
+            FindObjectOfType<AudioManager>().StopPlaying("Rolling");
+
             // Clamp the velocity immediately after the jump to ensure it doesn't exceed the maximum
             // This is to make the marble stop jumping higher than normal after multiple jumps
             Vector3 velocity = rb.velocity;
@@ -183,6 +188,8 @@ public class PlayerController : MonoBehaviour
             {
                 groundContact = true;
                 jumpDirection = contact.normal; // Use the normal of the ground contact
+
+               
             }
             else if (angle > jumpSurfaceAngle && angle < 180 - jumpSurfaceAngle) // considered as wall
             {
@@ -199,5 +206,14 @@ public class PlayerController : MonoBehaviour
     {
         // Player can jump if there is a ground contact, regardless of wall contact
         isGrounded = groundContact && !wallContact;
+    }
+
+    private void EvaluateRollingSound()
+    {
+        if (isGrounded)
+        {
+            //Start Rollling Sound again
+            FindObjectOfType<AudioManager>().Play("Rolling");
+        }
     }
 }
