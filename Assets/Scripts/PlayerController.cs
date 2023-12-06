@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
     public float additionalGravityForce = 0f; // Extra downward force
     public float stickinessForce = 20f;
 
-
+    private bool isRollingSoundPlaying = false;
     private bool jump;
     private bool isGrounded;
     private bool groundContact; // Checking for contact with a ground surface
@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody rb;
     private Camera cam;
+    public new AudioManager audio;
 
     void Start()
     {
@@ -44,6 +45,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate() //Use for movement
     {
+        EvaluateRollingSound();
         EvaluateJumpPermission();
         Move();
         Jump();
@@ -146,10 +148,6 @@ public class PlayerController : MonoBehaviour
             // Apply the jump force
             rb.AddForce(jumpDirection * jumpPower, ForceMode.Impulse);
 
-            //Play Jump Sound && Stop Rolling Sound
-            //FindObjectOfType<AudioManager>().Play("Jump");
-            FindObjectOfType<AudioManager>().StopPlaying("Rolling");
-
             // Clamp the velocity immediately after the jump to ensure it doesn't exceed the maximum
             // This is to make the marble stop jumping higher than normal after multiple jumps
             Vector3 velocity = rb.velocity;
@@ -159,6 +157,9 @@ public class PlayerController : MonoBehaviour
             // After jumping, reset groundContact and wallContact so it needs to be confirmed again
             groundContact = false;
             wallContact = false;
+
+            // Play jump sound
+            audio.PlaySound("Jump");
         }
     }
 
@@ -188,8 +189,6 @@ public class PlayerController : MonoBehaviour
             {
                 groundContact = true;
                 jumpDirection = contact.normal; // Use the normal of the ground contact
-
-               
             }
             else if (angle > jumpSurfaceAngle && angle < 180 - jumpSurfaceAngle) // considered as wall
             {
@@ -197,11 +196,11 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        // Debug to check the contact states
+        // Debug to check contact states
         //Debug.Log("Ground contact: " + groundContact + ", Wall contact: " + wallContact);
     }
 
-    // Call this in FixedUpdate before Jump to re-evaluate ability to jump
+    // Call in FixedUpdate before Jump to re-evaluate ability to jump
     private void EvaluateJumpPermission()
     {
         // Player can jump if there is a ground contact, regardless of wall contact
@@ -210,10 +209,18 @@ public class PlayerController : MonoBehaviour
 
     private void EvaluateRollingSound()
     {
-        if (isGrounded)
+        // Play rolling sound when in contact with ground and stop when not in contact with ground
+        if (isGrounded && !isRollingSoundPlaying)
         {
-            //Start Rollling Sound again
-            FindObjectOfType<AudioManager>().Play("Rolling");
+            audio.PlaySound("Rolling");
+            isRollingSoundPlaying = true;
+            Debug.Log("Playing rolling sound");
+        }
+        else if (!isGrounded && isRollingSoundPlaying)
+        {
+            audio.StopPlaying("Rolling");
+            isRollingSoundPlaying = false;
+            Debug.Log("Stopping rolling sound");
         }
     }
 }
