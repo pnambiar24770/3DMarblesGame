@@ -11,6 +11,7 @@ public class SoftbodyToggle : MonoBehaviour
     private Quaternion[] initialRotations;
 
     public bool softBodyActive = false;
+    public new AudioManager audio;
 
     void Start()
     {
@@ -57,7 +58,7 @@ public class SoftbodyToggle : MonoBehaviour
                 playerManager.currentSize = PlayerManager.BallSize.Softbody;
                 playerManager.UpdatePhysicsParameters();
                 //play jump sound
-                FindObjectOfType<AudioManager>().PlaySound("Water");
+                audio.PlaySound("Water");
 
             }
             else
@@ -66,7 +67,7 @@ public class SoftbodyToggle : MonoBehaviour
                 playerManager.currentSize = PlayerManager.BallSize.Medium;
                 playerManager.UpdatePhysicsParameters();
                 //stop water sound
-                FindObjectOfType<AudioManager>().StopPlaying("Water");
+                audio.StopPlaying("Water");
 
             }
 

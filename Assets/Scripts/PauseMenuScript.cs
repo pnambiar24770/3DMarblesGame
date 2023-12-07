@@ -7,6 +7,7 @@ public class PauseMenuScript : MonoBehaviour
     public static bool IsGamePaused = false;
 
     public GameObject PauseMenuUI;
+    public new AudioManager audio;
 
     void Update()
     {
@@ -33,6 +34,7 @@ public class PauseMenuScript : MonoBehaviour
         PauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
         IsGamePaused = true;
+        audio.StopPlaying("Rolling");
     }
 
 
@@ -41,6 +43,7 @@ public class PauseMenuScript : MonoBehaviour
         PauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
         IsGamePaused = false;
+        audio.PlaySound("Rolling");
 
     }
 }

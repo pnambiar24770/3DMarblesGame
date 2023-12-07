@@ -27,6 +27,8 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
     private Camera cam;
     public new AudioManager audio;
+    public SoftbodyToggle softbodyToggle;
+    
 
     void Start()
     {
@@ -210,7 +212,7 @@ public class PlayerController : MonoBehaviour
     private void EvaluateRollingSound()
     {
         // Play rolling sound when in contact with ground and stop when not in contact with ground
-        if (isGrounded && !isRollingSoundPlaying)
+        if (isGrounded && !isRollingSoundPlaying && !softbodyToggle.softBodyActive)
         {
             audio.PlaySound("Rolling");
             isRollingSoundPlaying = true;
