@@ -3357,7 +3357,7 @@
     "hlslDeclarationOverride": 0,
     "m_Hidden": false,
     "m_Value": 400.0,
-    "m_FloatType": 1,
+    "m_FloatType": 2,
     "m_RangeValues": {
         "x": 0.009999999776482582,
         "y": 1000.0

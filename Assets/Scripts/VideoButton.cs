@@ -3,7 +3,11 @@ using UnityEngine;
 public class VideoButton : MonoBehaviour
 {
     public VideoPlayerController videoPlayerController;
+    public Light light1, light2;
+    public GameObject screen;
+
     public bool isForwardButton; // true is forwards, false is backwards
+    public bool isPowerButton;
 
     private float cooldownTime = 1.0f;
     private float lastActivatedTime = -1.0f;
@@ -13,7 +17,14 @@ public class VideoButton : MonoBehaviour
         if (other.CompareTag("Player") && Time.time >= lastActivatedTime + cooldownTime)
         {
             lastActivatedTime = Time.time;
-            ChangeVideo();
+            if (isPowerButton)
+            {
+                ToggleTVAndLights();
+            }
+            else
+            {
+                ChangeVideo();
+            }
         }
     }
 
@@ -27,5 +38,13 @@ public class VideoButton : MonoBehaviour
         {
             videoPlayerController.PlayPreviousVideo();
         }
+    }
+
+    private void ToggleTVAndLights()
+    {
+        // Toggle the active state of the TV and lights
+        screen.SetActive(!screen.activeSelf);
+        light1.enabled = !light1.enabled;
+        light2.enabled = !light2.enabled;
     }
 }
