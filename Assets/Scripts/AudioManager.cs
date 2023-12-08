@@ -5,7 +5,7 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour
 {
 
-	public static AudioManager instance;
+	public AudioSource audioSource;
 
 	public AudioMixerGroup mixerGroup;
 
@@ -13,13 +13,12 @@ public class AudioManager : MonoBehaviour
 
 	void Awake()
 	{
-		if (instance != null)
+		if (audioSource != null)
 		{
 			Destroy(gameObject);
 		}
 		else
 		{
-			instance = this;
 			DontDestroyOnLoad(gameObject);
 		}
 

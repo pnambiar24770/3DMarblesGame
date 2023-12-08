@@ -12,6 +12,12 @@ public class VideoButton : MonoBehaviour
     private float cooldownTime = 1.0f;
     private float lastActivatedTime = -1.0f;
 
+    void Start()
+    {
+        light1.enabled = false; // Turn off the lights at the start
+        light2.enabled = false;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player") && Time.time >= lastActivatedTime + cooldownTime)
