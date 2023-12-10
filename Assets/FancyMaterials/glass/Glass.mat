@@ -20,6 +20,18 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _AO:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Albedo:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Emissive:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _GlassRefractionMap:
         m_Texture: {fileID: 2800000, guid: 2b9d47b972c60a54b871a79ac33e122d, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -30,6 +42,14 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _Normal:
         m_Texture: {fileID: 2800000, guid: 7aebad99ce25be74fb0e35147ae68dd5, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Rughness:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SampleTexture2DLOD_33e650cf57364e1fb8f2422e1e238bef_Texture_1:
@@ -58,10 +78,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AlbedoOpacity: 1
     - _Chromatic: 0
     - _DisortStrenght: 3
     - _DisortStrength: 10
     - _DistortionOnTexture: 0.78
+    - _EmissiveStrenght: 1
     - _IOR: 1.52
     - _Metalic: 0.246
     - _Metallic: 0
