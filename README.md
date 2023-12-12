@@ -1,5 +1,5 @@
 # CS583-3DMarbles
-Unity 3D Marble Game for CS-583
+Unity 3D Marble Game for CS-583 <br />
 Created by Ryan Arbar, Aaron Sergeev, and Pranav Nambiar
 
 # How to Play
