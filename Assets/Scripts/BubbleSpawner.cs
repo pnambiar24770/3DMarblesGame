@@ -1,9 +1,8 @@
 using UnityEngine;
 
-
 public class BubbleSpawner : MonoBehaviour
 {
-    public GameObject bubblePrefab; // Reference to the bubble prefab
+    public GameObject bubblePrefab;
     public float spawnInterval = 10f;
     public Vector3 spawnPosition;
     public GameObject player;
@@ -25,10 +24,10 @@ public class BubbleSpawner : MonoBehaviour
         }
     }
 
-    private void SpawnBubble() {
-    GameObject bubble = Instantiate(bubblePrefab, spawnPosition, Quaternion.identity);
-    bubble.GetComponent<Bubbles>().player = player; 
-}
+    private void SpawnBubble()
+    {
+        GameObject bubble = Instantiate(bubblePrefab, spawnPosition, Quaternion.identity);
 
-
+        bubble.GetComponent<Bubbles>().player = player;
+    }
 }

@@ -12,7 +12,7 @@ public class GameMenuScript : MonoBehaviour
     // Start is called before the first frame update
     public void PressPlay()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex + 1);
         Time.timeScale = 1f;
     }
 
@@ -23,7 +23,7 @@ public class GameMenuScript : MonoBehaviour
 
     public void MainMenu()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex - 1);
 
 
 

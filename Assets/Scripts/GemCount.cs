@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class GemCount : MonoBehaviour
 {
-    public int gemsCollected { get; private set; }
+    public int gemsCollected = 0;
 
     public UnityEvent<GemCount> OnGemCollected;
 

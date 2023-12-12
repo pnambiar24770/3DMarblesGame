@@ -4,12 +4,9 @@ public class Bubbles : MonoBehaviour
 {
     public GameObject player;
     public float horizontalMoveSpeed = 20f;
-    public float descentSpeed = 10f;
-    public float minimumVerticalDistance = 0.5f;
-    public float driftMagnitude = 0.1f;
+    public float knockbackForce = 100;
 
     private Transform playerTransform;
-    private Vector3 driftDirection;
 
     void Start()
     {
@@ -17,18 +14,17 @@ public class Bubbles : MonoBehaviour
         {
             playerTransform = player.GetComponent<Transform>();
         }
-        driftDirection = new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f)).normalized;
     }
 
     void Update()
     {
         if (playerTransform != null)
         {
-            Vector3 targetPosition = new Vector3(playerTransform.position.x, Mathf.Max(playerTransform.position.y + minimumVerticalDistance, transform.position.y - descentSpeed * Time.deltaTime), playerTransform.position.z);
-            Vector3 horizontalTargetPosition = new Vector3(targetPosition.x, transform.position.y, targetPosition.z);
-            transform.position = Vector3.MoveTowards(transform.position, horizontalTargetPosition, horizontalMoveSpeed * Time.deltaTime);
-            transform.position = new Vector3(transform.position.x, targetPosition.y, transform.position.z);
-            transform.position += new Vector3(driftDirection.x, 0, driftDirection.z) * driftMagnitude * Time.deltaTime;
+            // Target position directly towards the player
+            Vector3 targetPosition = playerTransform.position;
+
+            // Move the bubble towards the target position
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition, horizontalMoveSpeed * Time.deltaTime);
         }
     }
 
@@ -36,6 +32,14 @@ public class Bubbles : MonoBehaviour
     {
         if (collision.gameObject == player)
         {
+            // Apply force to the player
+            Rigidbody playerRigidbody = player.GetComponent<Rigidbody>();
+            if (playerRigidbody != null)
+            {
+                Vector3 forceDirection = (playerTransform.position - transform.position).normalized;
+                playerRigidbody.AddForce(forceDirection * knockbackForce, ForceMode.Impulse);
+            }
+
             Destroy(gameObject); // Destroy the bubble on contact
         }
     }

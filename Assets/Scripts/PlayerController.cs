@@ -211,18 +211,32 @@ public class PlayerController : MonoBehaviour
 
     private void EvaluateRollingSound()
     {
-        // Play rolling sound when in contact with ground and stop when not in contact with ground
-        if (isGrounded && !isRollingSoundPlaying && !softbodyToggle.softBodyActive)
+        // Calculate the magnitude of the horizontal velocity
+        Vector3 horizontalVelocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+        float speed = horizontalVelocity.magnitude;
+
+        // Determine if the player is moving and on the ground
+        bool isMoving = speed > 0.1f; // Threshold to determine if the player is moving
+        bool shouldPlayRollingSound = isGrounded && isMoving && !softbodyToggle.softBodyActive;
+
+        if (shouldPlayRollingSound && !isRollingSoundPlaying)
         {
             audio.PlaySound("Rolling");
             isRollingSoundPlaying = true;
-            Debug.Log("Playing rolling sound");
         }
-        else if (!isGrounded && isRollingSoundPlaying)
+        else if (!shouldPlayRollingSound && isRollingSoundPlaying)
         {
             audio.StopPlaying("Rolling");
             isRollingSoundPlaying = false;
-            Debug.Log("Stopping rolling sound");
+        }
+
+        // Adjust the volume and/or pitch based on speed, if the sound is playing
+        if (isRollingSoundPlaying)
+        {
+            // Scale these factors as per your requirement
+            audio.SetVolume("Rolling", Mathf.Clamp(speed / maxAngularVelocity, 0.1f, 1f));
+            audio.SetPitch("Rolling", Mathf.Clamp(speed / maxAngularVelocity, 0.5f, 2f));
         }
     }
+
 }

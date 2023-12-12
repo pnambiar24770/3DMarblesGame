@@ -69,4 +69,31 @@ public class AudioManager : MonoBehaviour
         s.source.Stop();
     }
 
+	public void SetVolume(string sound, float volume)
+	{
+		Sound s = Array.Find(sounds, item => item.name == sound);
+		if (s != null)
+		{
+			s.source.volume = volume;
+		}
+		else
+		{
+			Debug.LogWarning("SetVolume() Sound: " + sound + " not found!");
+		}
+	}
+
+	public void SetPitch(string sound, float pitch)
+	{
+		Sound s = Array.Find(sounds, item => item.name == sound);
+		if (s != null)
+		{
+			s.source.pitch = pitch;
+		}
+		else
+		{
+			Debug.LogWarning("SetPitch() Sound: " + sound + " not found!");
+		}
+	}
+
+
 }

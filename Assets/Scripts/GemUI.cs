@@ -6,6 +6,7 @@ using TMPro;
 public class GemUI : MonoBehaviour
 {
     private TextMeshProUGUI gemText;
+    public TextMeshProUGUI congratulationsText;
 
     // Start is called before the first frame update
     void Start()
@@ -17,5 +18,10 @@ public class GemUI : MonoBehaviour
     public void UpdateGemText(GemCount gemCount)
     {
         gemText.text = "Gems: " + gemCount.gemsCollected.ToString();
+
+        if (gemCount.gemsCollected >= 150 && congratulationsText != null)
+        {
+            congratulationsText.gameObject.SetActive(true);
+        }
     }
 }
