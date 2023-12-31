@@ -8,5 +8,5 @@ Created by Ryan Arbar, Aaron Sergeev, and Pranav Nambiar
 3. Open the menu scene from project window (CS583-3DMarbles\Assets\Scenes\Game Menu.unity)
 4. Play the game
 
-# Sample Video
+# Playthrough video
 https://www.youtube.com/watch?v=Pm3VCDvdrEQ 
